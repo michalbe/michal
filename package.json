@@ -2,5 +2,9 @@
   "name": "michal",
   "version": "0.0.1",
   "author": "Michal Budzynski <michal@virtualdesign.pl>",
-  "repository": "git@github.com:michalbe/michal.git"
+  "repository": "git@github.com:michalbe/michal.git",
+  "devDependencies": {
+    "jshint": "^2.5.2",
+    "precommit-hook": "^1.0.5"
+  }
 }
