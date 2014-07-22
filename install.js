@@ -1,19 +1,31 @@
 'use strict';
+var async = require('async');
+var tasks = [
+  //require('./scripts/precommit-hook-generator'),
+  require('./scripts/jshintrc-generator')
+];
 
-var pjg = require('./scripts/package-json-generator');
-var phg = require('./scripts/precommit-hook-generator');
-
-pjg(function(err, msg) {
+require('./scripts/package-json-generator')(function(err, msg) {
   if (err) {
     console.log(err);
     return;
   }
   console.log(msg);
-  phg(function(err, msg) {
-    if (err) {
-      console.log(err);
-      return;
+
+  async.each(
+    tasks,
+    function(task, cb) {
+      task(function(err, msg) {
+        if (err) {
+          throw new Error(err);
+          return;
+        }
+        console.log(msg);
+        cb();
+      });
+    },
+    function(){
+      console.log('DONE...');
     }
-    console.log(msg);
-  });
+  );
 })
