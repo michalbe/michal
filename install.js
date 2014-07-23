@@ -2,8 +2,8 @@
 
 var async = require('async');
 var tasks = [
-  //require('./scripts/precommit-hook-generator'),
-  //require('./scripts/jshintrc-generator'),
+  require('./scripts/precommit-hook-generator'),
+  require('./scripts/jshintrc-generator'),
   require('./scripts/fancom-generator')
 ];
 

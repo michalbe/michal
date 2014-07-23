@@ -9,3 +9,4 @@ This script should:
   * ~~install fancom with .fancom config~~
   * create `test` directory with example file
   * install `assert` module with dev dependency
+  * add `scripts` to the package.json file
