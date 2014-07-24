@@ -1,8 +1,9 @@
 {
   "name": "michal",
-  "version": "0.0.1",
+  "version": "0.1.4",
   "author": "Michal Budzynski <michal@virtualdesign.pl>",
   "repository": "git@github.com:michalbe/michal.git",
+  "bin": "./bin/cli.js",
   "devDependencies": {
     "assert": "^1.1.1",
     "precommit-hook": "^1.0.5"
