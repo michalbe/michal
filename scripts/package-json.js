@@ -3,6 +3,7 @@
 var exec = require('child_process').exec;
 var async = require('async');
 var fs = require('fs');
+var path = process.cwd();
 
 var packageJsonStructure = {
   name: '',
@@ -26,15 +27,17 @@ var parseGitCommand = function(instruction, cb) {
 };
 
 var gitConfigCommands = [
-  { name: '(basename $(git rev-parse --show-toplevel))' },
-  { author: 'git log --all --format=\'%aN <%cE>\' | sort -u | head -1' },
-  { repository: 'git config --get remote.origin.url' }
+  { name: 'cd ' + path + ';(basename $(git rev-parse --show-toplevel))' },
+  { author: 'cd ' +
+            path +
+            ';git log --all --format=\'%aN <%cE>\' | sort -u | head -1' },
+  { repository: 'cd ' + path + ';git config --get remote.origin.url' }
 ];
 
 module.exports = function(callback){
   async.each(gitConfigCommands, parseGitCommand, function() {
     fs.writeFile(
-      'package.json',
+      path + '/package.json',
       JSON.stringify(packageJsonStructure, null, 2),
       function(err) {
         if(err) {
