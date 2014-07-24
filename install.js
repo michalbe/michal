@@ -4,7 +4,9 @@ var async = require('async');
 var tasks = [
   require('./scripts/precommit-hook'),
   require('./scripts/jshintrc'),
-  require('./scripts/fancom')
+  require('./scripts/fancom'),
+  require('./scripts/tests'),
+  require('./scripts/assert')
 ];
 
 require('./scripts/package-json')(function(err, msg) {

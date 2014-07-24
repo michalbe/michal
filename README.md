@@ -7,6 +7,6 @@ This script should:
   * ~~install precommit-hook~~
   * ~~modify .jshintrc file with proper configuration~~
   * ~~install fancom with .fancom config~~
-  * create `test` directory with example file
-  * install `assert` module with dev dependency
+  * ~~create `test` directory with example file~~
+  * ~~install `assert` module with dev dependency~~
   * add `scripts` to the package.json file
