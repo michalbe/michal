@@ -2,12 +2,12 @@
 
 var async = require('async');
 var tasks = [
-  require('./scripts/precommit-hook-generator'),
-  require('./scripts/jshintrc-generator'),
-  require('./scripts/fancom-generator')
+  require('./scripts/precommit-hook'),
+  require('./scripts/jshintrc'),
+  require('./scripts/fancom')
 ];
 
-require('./scripts/package-json-generator')(function(err, msg) {
+require('./scripts/package-json')(function(err, msg) {
   if (err) {
     console.log(err);
     return;
