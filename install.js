@@ -27,8 +27,15 @@ require('./scripts/package-json')(function(err, msg) {
         cb();
       });
     },
-    function(){
-      console.log('DONE...');
+    function() {
+      require('./scripts/scripts')(function(err, msg){
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log(msg);
+        console.log('DONE...');
+      });
     }
   );
 });

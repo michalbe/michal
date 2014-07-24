@@ -8,15 +8,13 @@ module.exports = function(callback) {
     '\'use strict\';',
     '',
     'var assert = require(\'assert\');',
-    'var ' + name + ' = require(\'../\');',
+    '//var ' + name + ' = require(\'../\');', // commented for linter
     '',
     '// test 1',
-    'assert(' + name + ');'
+    'assert(true);'
   ];
   fs.mkdir('tests', function(err) {
-    if(err) {
-      callback(err);
-    } else {
+    if(!err || err.code === 'EEXIST') {
       console.log('`tests` directory created...');
       fs.writeFile(
         'tests/' + name + '-tests.js',
@@ -28,6 +26,9 @@ module.exports = function(callback) {
             callback(null, 'Simple test mock created....');
           }
       });
+
+    } else {
+      callback(err);
     }
   });
 };

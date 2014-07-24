@@ -10,7 +10,7 @@ var download = function(url, dest, cb) {
     response.pipe(file);
     file.on('finish', function() {
       file.close(function(){
-        cb(null, 'Fancom config downloaded');
+        cb(null, 'fancom config downloaded...');
       });
     });
   });
