@@ -1,6 +1,8 @@
 'use strict';
 
 var fs = require('fs');
+var path = process.cwd();
+
 var structure = {
   'camelcase': false,
   'curly': true,
@@ -30,11 +32,15 @@ var structure = {
 };
 
 module.exports = function(callback){
-  fs.writeFile('.jshintrc', JSON.stringify(structure, null, 2), function(err) {
-    if(err) {
-      callback(err);
-    } else {
-      callback(null, '.jshintrc file saved...');
+  fs.writeFile(
+    path + '/.jshintrc',
+    JSON.stringify(structure, null, 2),
+    function(err) {
+      if(err) {
+        callback(err);
+      } else {
+        callback(null, '.jshintrc file saved...');
+      }
     }
-  });
+  );
 };

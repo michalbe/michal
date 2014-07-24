@@ -2,6 +2,7 @@
 
 var https = require('https');
 var fs = require('fs');
+var path = process.cwd();
 var config = 'https://raw.githubusercontent.com/michalbe/fancom/master/.fancom';
 
 var download = function(url, dest, cb) {
@@ -17,5 +18,5 @@ var download = function(url, dest, cb) {
 };
 
 module.exports = function(callback){
-  download(config, '.fancom', callback);
+  download(config, path + '/.fancom', callback);
 };

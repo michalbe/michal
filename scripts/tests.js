@@ -1,9 +1,10 @@
 'use strict';
 
 var fs = require('fs');
+var path = process.cwd();
 
 module.exports = function(callback) {
-  var name = require('../package.json').name;
+  var name = require(path + '/package.json').name;
   var testFileMock = [
     '\'use strict\';',
     '',
@@ -13,11 +14,11 @@ module.exports = function(callback) {
     '// test 1',
     'assert(true);'
   ];
-  fs.mkdir('tests', function(err) {
+  fs.mkdir(path + '/tests', function(err) {
     if(!err || err.code === 'EEXIST') {
       console.log('`tests` directory created...');
       fs.writeFile(
-        'tests/' + name + '-tests.js',
+        path + '/tests/' + name + '-tests.js',
         testFileMock.join('\n'),
         function(file_err) {
           if(file_err) {
