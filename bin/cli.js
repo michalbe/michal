@@ -14,7 +14,7 @@ var tasks = [
 
 // I know this carbonara code is awful, but it's 05:27AM
 // and my last cigarette break was around 18:30
-ai('michal.png', function(logo){
+ai(__dirname+'/../michal.png', function(logo){
   console.log('\u001b[2J\u001b[0;0H');
   console.log(logo);
   require('../scripts/package-json')(function(err, msg) {
