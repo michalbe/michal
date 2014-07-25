@@ -1,8 +1,8 @@
 # michal by [@michalbe](http://github.com/michalbe) #
-M.I.C.H.A.L - My Initialization Config Handler Automator. LOL.
+M.I.C.H.A.L - My Initialization Config Handling Automator. LOL.
 
 ### What? ###
-Michal is commandline tool I use to setup all the things I need to start the new project. It:
+Michal is commandline tool I use to setup all the things I need to start a new project. It:
   * creates `package.json` file with proper name, repo & author
   * installs packages:
      * [precommit-hook](https://www.npmjs.org/package/precommit-hook)
