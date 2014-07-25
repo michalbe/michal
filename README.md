@@ -1,12 +1,25 @@
-michal
-======
+# michal by [@michalbe](http://github.com/michalbe) #
+M.I.C.H.A.L - My Initialization Config Handler Automator. LOL.
 
-This script should:
+### What? ###
+Michal is commandline tool I use to setup all the things I need to start the new project. It:
+  * creates `package.json` file with proper name, repo & author
+  * installs packages:
+     * [precommit-hook](https://www.npmjs.org/package/precommit-hook)
+     * [jshint](https://www.npmjs.org/package/jshint)
+     * [fancom](https://github.com/michalbe/fancom)
+     * [assert](https://www.npmjs.org/package/assert)
+  * Modifies ``.jshintrc` file with my favorite configuration
+  * Creates `test` directory with example file
 
-  * ~~create package.json file with proper name of the repo~~
-  * ~~install precommit-hook~~
-  * ~~modify .jshintrc file with proper configuration~~
-  * ~~install fancom with .fancom config~~
-  * ~~create `test` directory with example file~~
-  * ~~install `assert` module with dev dependency~~
-  * add `scripts` to the package.json file
+### How to use? ###
+Install with:
+```bash```
+ $ sudo npm install michal -g
+```
+
+Then in new, recently cloned `git` repo:
+```bash
+$ michal
+```
+Voila!
