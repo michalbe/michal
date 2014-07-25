@@ -1,6 +1,6 @@
 {
   "name": "michal",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "author": "Michal Budzynski <michal@virtualdesign.pl>",
   "repository": "git@github.com:michalbe/michal.git",
   "bin": {
