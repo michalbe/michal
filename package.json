@@ -1,6 +1,6 @@
 {
   "name": "michal",
-  "version": "0.1.12",
+  "version": "0.1.14",
   "author": "Michal Budzynski <michal@virtualdesign.pl>",
   "repository": "git@github.com:michalbe/michal.git",
   "bin": {
@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "ascii-images": "^0.1.1",
-    "async": "^0.9.0"
+    "async": "^0.9.0",
+    "git-info": "^1.0.0"
   }
 }

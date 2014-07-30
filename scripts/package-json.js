@@ -1,8 +1,7 @@
 'use strict';
 
-var exec = require('child_process').exec;
-var async = require('async');
 var fs = require('fs');
+var gi = require('git-info');
 var path = process.cwd();
 
 var packageJsonStructure = {
@@ -12,30 +11,12 @@ var packageJsonStructure = {
   repository: ''
 };
 
-
-var parseGitCommand = function(instruction, cb) {
-  var key = Object.keys(instruction)[0];
-  var command = instruction[key];
-
-  exec(command, function(error, stdout, stderr) {
-    if (error) {
-      throw new Error('Cannot run `git` commnds. Something goes wrong');
-    }
-    packageJsonStructure[key] = stdout.trim();
-    cb();
-  });
-};
-
-var gitConfigCommands = [
-  { name: 'cd ' + path + ';(basename $(git rev-parse --show-toplevel))' },
-  { author: 'cd ' +
-            path +
-            ';git log --all --format=\'%aN <%cE>\' | sort -u | head -1' },
-  { repository: 'cd ' + path + ';git config --get remote.origin.url' }
-];
-
 module.exports = function(callback){
-  async.each(gitConfigCommands, parseGitCommand, function() {
+  gi(['name', 'author', 'repository'], function(err, resp) {
+    packageJsonStructure.name = resp.name;
+    packageJsonStructure.author = resp.author;
+    packageJsonStructure.repository = resp.repository;
+
     fs.writeFile(
       path + '/package.json',
       JSON.stringify(packageJsonStructure, null, 2),
