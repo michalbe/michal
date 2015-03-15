@@ -4,8 +4,9 @@
 var cliArgs = require('command-line-args');
 var async = require('async');
 var ai = require('ascii-images');
+var packageJsonTask = require('../scripts/package-json');
 
-var cli = cliArgs(
+var cli = cliArgs([
   {
     name: 'all',
     type: Boolean,
@@ -24,12 +25,12 @@ var cli = cliArgs(
     alias: 'b',
     description: 'Install only package.json, fancom & jshint'
   }
-);
-// 
-// var usage = cli.getUsage({
-//     header: 'My Initialization Config Handling Automator. LOL.',
-//     footer: 'For more information, visit http://example.com'
-// });
+]);
+
+var usage = cli.getUsage({
+    header: 'My Initialization Config Handling Automator. LOL.',
+    footer: '\nFor more information, visit https://github.com/michalbe'
+});
 
 var options = cli.parse();
 
@@ -48,10 +49,11 @@ ai(__dirname+'/../michal.png', function(logo){
   console.log(logo);
 
   if (Object.keys(options).length === 0) {
-
+    console.log(usage);
+    return;
   }
 
-  require('../scripts/package-json')(function(err, msg) {
+  packageJsonTask(function(err, msg) {
     if (err) {
       console.log(err);
       return;
