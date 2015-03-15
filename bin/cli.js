@@ -1,8 +1,37 @@
 #!/usr/bin/env node
 'use strict';
 
+var cliArgs = require('command-line-args');
 var async = require('async');
 var ai = require('ascii-images');
+
+var cli = cliArgs(
+  {
+    name: 'all',
+    type: Boolean,
+    alias: 'a',
+    description: 'Install everything'
+  },
+  {
+    name: 'no-test',
+    type: Boolean,
+    alias:'t',
+    description: 'Install everything but tests'
+  },
+  {
+    name: 'basic',
+    type: Boolean,
+    alias: 'b',
+    description: 'Install only package.json, fancom & jshint'
+  }
+);
+// 
+// var usage = cli.getUsage({
+//     header: 'My Initialization Config Handling Automator. LOL.',
+//     footer: 'For more information, visit http://example.com'
+// });
+
+var options = cli.parse();
 
 var tasks = [
   require('../scripts/precommit-hook'),
@@ -17,6 +46,11 @@ var tasks = [
 ai(__dirname+'/../michal.png', function(logo){
   console.log('\u001b[2J\u001b[0;0H');
   console.log(logo);
+
+  if (Object.keys(options).length === 0) {
+
+  }
+
   require('../scripts/package-json')(function(err, msg) {
     if (err) {
       console.log(err);
