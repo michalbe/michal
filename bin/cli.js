@@ -6,6 +6,13 @@ var async = require('async');
 var ai = require('ascii-images');
 var packageJsonTask = require('../scripts/package-json');
 
+var tasksDesc = {
+  p: ['../scripts/precommit-hook'],
+  j: ['../scripts/jshintrc'],
+  f: ['../scripts/fancom'],
+  t: ['../scripts/tests', '../scripts/assert']
+};
+
 var cli = cliArgs([
   {
     name: 'all',
@@ -16,14 +23,32 @@ var cli = cliArgs([
   {
     name: 'no-test',
     type: Boolean,
-    alias:'t',
+    alias:'n',
     description: 'Install everything but tests'
   },
   {
-    name: 'basic',
+    name: 'precommit-hook',
     type: Boolean,
-    alias: 'b',
-    description: 'Install only package.json, fancom & jshintrc (no jshint lib)'
+    alias: 'p',
+    description: 'Install precommit-hook'
+  },
+  {
+    name: 'jshintrc',
+    type: Boolean,
+    alias: 'j',
+    description: 'Install .jshintrc file'
+  },
+  {
+    name: 'fancom',
+    type: Boolean,
+    alias: 'f',
+    description: 'Install .fancom file'
+  },
+  {
+    name: 'tests',
+    type: Boolean,
+    alias: 't',
+    description: 'Install tests'
   }
 ]);
 
@@ -34,7 +59,10 @@ var usage = cli.getUsage({
 
 var options = cli.parse();
 
-var tasks;
+var tasks = [];
+var addtaskPath = function(taskPath){
+  tasks.push(require(taskPath));
+};
 
 // I know this carbonara code is awful, but it's 05:27AM
 // and my last cigarette break was around 18:30
@@ -46,24 +74,27 @@ ai(__dirname+'/../michal.png', function(logo){
     console.log(usage);
     return;
   } else if (options['no-test'] === true) {
-    tasks = [
-      require('../scripts/precommit-hook'),
-      require('../scripts/jshintrc'),
-      require('../scripts/fancom')
-    ];
-  } else if (options.basic === true) {
-    tasks = [
-       require('../scripts/jshintrc'),
-       require('../scripts/fancom')
-     ];
+    tasksDesc.p.forEach(addtaskPath);
+    tasksDesc.j.forEach(addtaskPath);
+    tasksDesc.f.forEach(addtaskPath);
+  } else if (options.all === true){
+    for (var i in tasksDesc) {
+      tasksDesc[i].forEach(addtaskPath);
+    }
   } else {
-    tasks = [
-     require('../scripts/precommit-hook'),
-     require('../scripts/jshintrc'),
-     require('../scripts/fancom'),
-     require('../scripts/tests'),
-     require('../scripts/assert')
-   ];
+    if (options['precommit-hook']) {
+      tasksDesc.p.forEach(addtaskPath);
+    }
+    if (options.jshintrc) {
+      tasksDesc.j.forEach(addtaskPath);
+    }
+    if (options.fancom) {
+      tasksDesc.f.forEach(addtaskPath);
+    }
+    if (options.tests) {
+      tasksDesc.t.forEach(addtaskPath);
+    }
+
   }
 
   packageJsonTask(function(err, msg) {
