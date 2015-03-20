@@ -12,7 +12,7 @@ Michal is commandline tool I use to setup all the things I need to start a new p
   * Modifies ``.jshintrc` file with my favorite configuration
   * Creates `test` directory with example file
 
-![michal](https://raw.githubusercontent.com/michalbe/michal/master/screen.jpg)
+![michal](https://raw.githubusercontent.com/michalbe/michal/master/screen.png)
 
 ### How to use? ###
 Install with:
