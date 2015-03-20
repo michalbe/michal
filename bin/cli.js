@@ -85,7 +85,7 @@ ai(__dirname+'/../michal.png', function(logo){
         });
       },
       function() {
-        require('../scripts/scripts')(function(err, msg){
+        require('../scripts/scripts')(options, function(err, msg){
           if (err) {
             console.log(err);
             return;
