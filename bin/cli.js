@@ -23,7 +23,7 @@ var cli = cliArgs([
     name: 'basic',
     type: Boolean,
     alias: 'b',
-    description: 'Install only package.json, fancom & jshint'
+    description: 'Install only package.json, fancom & jshintrc (no jshint lib)'
   }
 ]);
 
