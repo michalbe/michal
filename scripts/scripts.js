@@ -3,13 +3,21 @@
 var fs = require('fs');
 var path = process.cwd();
 
-module.exports = function(callback) {
+module.exports = function(options, callback) {
   delete require.cache[require.resolve(path + '/package.json')];
   var packageJsonStructure = require(path + '/package.json');
-  packageJsonStructure.scripts = {
-    'test': 'node tests/' + packageJsonStructure.name + '-tests.js',
-    'lint': 'node node_modules/jshint/bin/jshint .'
-  };
+
+  if (options['no-test']) {
+    packageJsonStructure.scripts = {
+      'lint': 'node node_modules/jshint/bin/jshint .'
+    };
+  } else {
+    packageJsonStructure.scripts = {
+      'test': 'node tests/' + packageJsonStructure.name + '-tests.js',
+      'lint': 'node node_modules/jshint/bin/jshint .'
+    };
+  }
+
 
   fs.writeFile(
     path + '/package.json',
