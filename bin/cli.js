@@ -34,13 +34,7 @@ var usage = cli.getUsage({
 
 var options = cli.parse();
 
-var tasks = [
-  require('../scripts/precommit-hook'),
-  require('../scripts/jshintrc'),
-  require('../scripts/fancom'),
-  require('../scripts/tests'),
-  require('../scripts/assert')
-];
+var tasks;
 
 // I know this carbonara code is awful, but it's 05:27AM
 // and my last cigarette break was around 18:30
@@ -51,6 +45,25 @@ ai(__dirname+'/../michal.png', function(logo){
   if (Object.keys(options).length === 0) {
     console.log(usage);
     return;
+  } else if (options['no-test'] === true) {
+    tasks = [
+      require('../scripts/precommit-hook'),
+      require('../scripts/jshintrc'),
+      require('../scripts/fancom')
+    ];
+  } else if (options.basic === true) {
+    tasks = [
+       require('../scripts/jshintrc'),
+       require('../scripts/fancom')
+     ];
+  } else {
+    tasks = [
+     require('../scripts/precommit-hook'),
+     require('../scripts/jshintrc'),
+     require('../scripts/fancom'),
+     require('../scripts/tests'),
+     require('../scripts/assert')
+   ];
   }
 
   packageJsonTask(function(err, msg) {
