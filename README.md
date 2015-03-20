@@ -20,7 +20,11 @@ Install with:
  $ sudo npm install michal -g
 ```
 
-Then in new, recently cloned `git` repo:
+Then in new, recently cloned `git` repo, to install all the packages:
+```bash
+$ michal -a
+```
+To check available options run the command without parameters:
 ```bash
 $ michal
 ```
