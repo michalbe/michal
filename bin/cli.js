@@ -60,13 +60,13 @@ var usage = cli.getUsage({
 var options = cli.parse();
 
 var tasks = [];
-var addtaskPath = function(taskPath){
+var addtaskPath = function(taskPath) {
   tasks.push(require(taskPath));
 };
 
 // I know this carbonara code is awful, but it's 05:27AM
 // and my last cigarette break was around 18:30
-ai(__dirname+'/../michal.png', function(logo){
+ai(__dirname + '/../michal.png', function(logo) {
   console.log('\u001b[2J\u001b[0;0H');
   console.log(logo);
 
@@ -77,7 +77,7 @@ ai(__dirname+'/../michal.png', function(logo){
     tasksDesc.p.forEach(addtaskPath);
     tasksDesc.j.forEach(addtaskPath);
     tasksDesc.f.forEach(addtaskPath);
-  } else if (options.all === true){
+  } else if (options.all === true) {
     for (var i in tasksDesc) {
       tasksDesc[i].forEach(addtaskPath);
     }
@@ -116,7 +116,7 @@ ai(__dirname+'/../michal.png', function(logo){
         });
       },
       function() {
-        require('../scripts/scripts')(options, function(err, msg){
+        require('../scripts/scripts')(options, function(err, msg) {
           if (err) {
             console.log(err);
             return;
