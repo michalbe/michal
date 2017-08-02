@@ -5,12 +5,12 @@ var cliArgs = require('command-line-args');
 var async = require('async');
 var ai = require('ascii-images');
 var packageJsonTask = require('../scripts/package-json');
+var includePackageJson = false;
 
 var tasksDesc = {
-  p: ['../scripts/precommit-hook'],
-  j: ['../scripts/jshintrc'],
   f: ['../scripts/fancom'],
-  t: ['../scripts/tests', '../scripts/assert']
+  t: ['../scripts/tests', '../scripts/assert'],
+  others: ['../scripts/rollup-config']
 };
 
 var cli = cliArgs([
@@ -25,18 +25,6 @@ var cli = cliArgs([
     type: Boolean,
     alias:'n',
     description: 'Install everything but tests'
-  },
-  {
-    name: 'precommit-hook',
-    type: Boolean,
-    alias: 'p',
-    description: 'Install precommit-hook'
-  },
-  {
-    name: 'jshintrc',
-    type: Boolean,
-    alias: 'j',
-    description: 'Install .jshintrc file'
   },
   {
     name: 'fancom',
@@ -74,30 +62,28 @@ ai(__dirname + '/../michal.png', function(logo) {
     console.log(usage);
     return;
   } else if (options['no-test'] === true) {
-    tasksDesc.p.forEach(addtaskPath);
-    tasksDesc.j.forEach(addtaskPath);
+
+    includePackageJson = true;
     tasksDesc.f.forEach(addtaskPath);
+    tasksDesc.others.forEach(addtaskPath);
+
   } else if (options.all === true) {
+
+    includePackageJson = true;
     for (var i in tasksDesc) {
       tasksDesc[i].forEach(addtaskPath);
     }
+
   } else {
-    if (options['precommit-hook']) {
-      tasksDesc.p.forEach(addtaskPath);
-    }
-    if (options.jshintrc) {
-      tasksDesc.j.forEach(addtaskPath);
-    }
     if (options.fancom) {
       tasksDesc.f.forEach(addtaskPath);
     }
     if (options.tests) {
       tasksDesc.t.forEach(addtaskPath);
     }
-
   }
 
-  packageJsonTask(function(err, msg) {
+  var performTasks = function(err, msg) {
     if (err) {
       console.log(err);
       return;
@@ -126,5 +112,13 @@ ai(__dirname + '/../michal.png', function(logo) {
         });
       }
     );
-  });
+  };
+
+  if (includePackageJson) {
+    packageJsonTask(performTasks);
+  } else {
+    performTasks(null,
+      'Skipping installation of package.json for selected tasks.'
+    );
+  }
 });

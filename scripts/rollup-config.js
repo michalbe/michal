@@ -41,7 +41,10 @@ export default {
 
 module.exports = function(callback){
   gi(['name'], function(err, resp) {
-    rollupConfigTemplate = rollupConfigTemplate.replace('*MODULENAME*', resp.name);
+    rollupConfigTemplate = rollupConfigTemplate.replace(
+      '*MODULENAME*',
+      resp.name
+    );
 
     fs.writeFile(
       path + '/rollup.config.js',
