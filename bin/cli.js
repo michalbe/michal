@@ -10,7 +10,11 @@ var includePackageJson = false;
 var tasksDesc = {
   f: ['../scripts/fancom'],
   t: ['../scripts/tests', '../scripts/assert'],
-  others: ['../scripts/rollup-config']
+  others: [
+    '../scripts/rollup-config',
+    '../scripts/packages',
+    '../scripts/eslint'
+  ]
 };
 
 var cli = cliArgs([
