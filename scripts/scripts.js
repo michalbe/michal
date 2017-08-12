@@ -9,12 +9,14 @@ module.exports = function(options, callback) {
 
   if (options['no-test']) {
     packageJsonStructure.scripts = {
-      'lint': 'node node_modules/jshint/bin/jshint .'
+      'build': 'rollup -c',
+      'dev': 'rollup -c -w'
     };
   } else {
     packageJsonStructure.scripts = {
       'test': 'node tests/' + packageJsonStructure.name + '-tests.js',
-      'lint': 'node node_modules/jshint/bin/jshint .'
+      'build': 'rollup -c',
+      'dev': 'rollup -c -w'
     };
   }
 

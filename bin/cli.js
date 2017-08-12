@@ -5,12 +5,16 @@ var cliArgs = require('command-line-args');
 var async = require('async');
 var ai = require('ascii-images');
 var packageJsonTask = require('../scripts/package-json');
+var includePackageJson = false;
 
 var tasksDesc = {
-  p: ['../scripts/precommit-hook'],
-  j: ['../scripts/jshintrc'],
   f: ['../scripts/fancom'],
-  t: ['../scripts/tests', '../scripts/assert']
+  t: ['../scripts/tests', '../scripts/assert'],
+  others: [
+    '../scripts/rollup-config',
+    '../scripts/packages',
+    '../scripts/eslint'
+  ]
 };
 
 var cli = cliArgs([
@@ -25,18 +29,6 @@ var cli = cliArgs([
     type: Boolean,
     alias:'n',
     description: 'Install everything but tests'
-  },
-  {
-    name: 'precommit-hook',
-    type: Boolean,
-    alias: 'p',
-    description: 'Install precommit-hook'
-  },
-  {
-    name: 'jshintrc',
-    type: Boolean,
-    alias: 'j',
-    description: 'Install .jshintrc file'
   },
   {
     name: 'fancom',
@@ -60,13 +52,13 @@ var usage = cli.getUsage({
 var options = cli.parse();
 
 var tasks = [];
-var addtaskPath = function(taskPath){
+var addtaskPath = function(taskPath) {
   tasks.push(require(taskPath));
 };
 
 // I know this carbonara code is awful, but it's 05:27AM
 // and my last cigarette break was around 18:30
-ai(__dirname+'/../michal.png', function(logo){
+ai(__dirname + '/../michal.png', function(logo) {
   console.log('\u001b[2J\u001b[0;0H');
   console.log(logo);
 
@@ -74,30 +66,28 @@ ai(__dirname+'/../michal.png', function(logo){
     console.log(usage);
     return;
   } else if (options['no-test'] === true) {
-    tasksDesc.p.forEach(addtaskPath);
-    tasksDesc.j.forEach(addtaskPath);
+
+    includePackageJson = true;
     tasksDesc.f.forEach(addtaskPath);
-  } else if (options.all === true){
+    tasksDesc.others.forEach(addtaskPath);
+
+  } else if (options.all === true) {
+
+    includePackageJson = true;
     for (var i in tasksDesc) {
       tasksDesc[i].forEach(addtaskPath);
     }
+
   } else {
-    if (options['precommit-hook']) {
-      tasksDesc.p.forEach(addtaskPath);
-    }
-    if (options.jshintrc) {
-      tasksDesc.j.forEach(addtaskPath);
-    }
     if (options.fancom) {
       tasksDesc.f.forEach(addtaskPath);
     }
     if (options.tests) {
       tasksDesc.t.forEach(addtaskPath);
     }
-
   }
 
-  packageJsonTask(function(err, msg) {
+  var performTasks = function(err, msg) {
     if (err) {
       console.log(err);
       return;
@@ -116,7 +106,7 @@ ai(__dirname+'/../michal.png', function(logo){
         });
       },
       function() {
-        require('../scripts/scripts')(options, function(err, msg){
+        require('../scripts/scripts')(options, function(err, msg) {
           if (err) {
             console.log(err);
             return;
@@ -126,5 +116,13 @@ ai(__dirname+'/../michal.png', function(logo){
         });
       }
     );
-  });
+  };
+
+  if (includePackageJson) {
+    packageJsonTask(performTasks);
+  } else {
+    performTasks(null,
+      'Skipping installation of package.json for selected tasks.'
+    );
+  }
 });
